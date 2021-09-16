@@ -1,0 +1,686 @@
+<Defaults>
+
+<!-- Panel -->
+  <Panel
+    class="headingPanel"
+    position="0 65 -21"
+    width="256"
+    height="35"
+    padding="0 0 0 0"
+    color="clear">
+  </Panel>
+
+  <Panel
+    class="tilePanel"
+    position="0 -25 -21"
+    width="176"
+    height="99"
+    padding="0 0 0 0"
+    color="black">
+  </Panel>
+
+  <Panel
+    class="deckSelectorPanel"
+    position="0 -900 -2"
+    width="1100"
+    height="1500"
+    padding="10 10 10 10"
+    color="Black">
+  </Panel>
+
+  <Panel
+    class="settingsPanel"
+    position="795 -589 -2"
+    width="510"
+    height="563"
+    padding="10 10 10 10"
+    color="Black">
+  </Panel>
+
+  <Panel
+    class="zonePanel"
+    position="800 -1162.5 -2"
+    width="235"
+    height="327"
+    padding="10 10 10 10"
+    color="Black">
+  </Panel>
+
+  <Panel
+    class="zoneBorderPanel"
+    position="795 -1162 -2"
+    width="510"
+    height="605"
+    padding="10 10 10 10"
+    color="Black">
+  </Panel>
+
+<!-- Text -->
+  <Text
+    class="panelHeading"
+    color="#ffffff"
+    alignment="MiddleCenter"
+    fontSize="75">
+  </Text>
+
+  <Text
+    class="subheadingText"
+    color="#99aab5"
+    alignment="UpperMiddle"
+    fontSize="45">
+  </Text>
+
+  <Text
+    class="generalText"
+    color="#ffffff"
+    fontSize="30"
+    alignment="MiddleLeft">
+  </Text>
+
+  <Text
+    class="deckSizeText"
+    color="clear"
+    fontSize="30"
+    alignment="MiddleRight">
+  </Text>
+
+  <Text
+    class="showHideText"
+    color="#ffffff"
+    alignment="MiddleCenter"
+    fontSize="30">
+  </Text>
+
+<!-- Row -->
+  <Row
+    class="subheadingRow"
+    preferredHeight="55">
+  </Row>
+
+  <Row
+    class="generalRow"
+    preferredHeight="75">
+  </Row>
+
+  <Row
+    class="separatorRow"
+    preferredHeight="10"
+    dontUseTableRowBackground="True"
+    color="black">
+  </Row>
+
+<!-- Toggle -->
+  <Toggle
+    class="checkbox"
+    scale="3 3"
+    isOn="False"
+    onValueChanged="addDeck">
+  </Toggle>
+
+<!-- Button -->
+  <Button
+    class="tileButton"
+    padding="0 0 0 0"
+    image="platelet_1"
+    transition="SpriteSwap"
+    highlightedSprite="platelet_2"
+    pressedSprite="platelet_3">
+  </Button>
+
+  <Button
+    class="settingsOff"
+    active="True"
+    preferredHeight="175"
+    color="#9fa4a5"
+    padding="25 0 0 0">
+  </Button>
+
+  <Button
+    class="settingsOn"
+    active="False"
+    preferredHeight="175"
+    color="#31b32b"
+    padding="25 0 0 0">
+  </Button>
+
+  <Button
+    class="generalButton"
+    active="True"
+    preferredHeight="175"
+    color="#23272a"
+    padding="25 0 0 0">
+  </Button>
+
+<!-- Table Layout -->
+  <TableLayout
+    class="generalTable"
+    cellBackgroundColor="#23272a"
+    rowBackgroundColor="#23272a">
+  </TableLayout>
+
+  <TableLayout
+    class="columnSplit"
+    columnWidths="0 107"
+    useGlobalCellPadding="false"
+    cellBackgroundColor="clear">
+  </TableLayout>
+
+  <TableLayout
+    class="zoneTable"
+    rowBackgroundColor="#939393"
+    cellPadding="5 5 5 5">
+  </TableLayout>
+
+<!-- Cell -->
+  <Cell
+    class="titlesCell"
+    overrideGlobalCellPadding="True"
+    padding="25 25 0 0">
+  </Cell>
+
+  <Cell
+    class="checkboxCell"
+    overrideGlobalCellPadding="True"
+    padding="107 0 0 0">
+  </Cell>
+
+  <Cell
+    class="deckCountCell"
+    overrideGlobalCellPadding="True"
+    padding="0 50 0 0">
+  </Cell>
+
+  <Cell
+    class="zoneCell"
+    dontUseTableCellBackground="True"
+    color="clear">
+  </Cell>
+
+</Defaults>
+
+<!-- Tile Controller -->
+<Panel class="headingPanel">
+  <Text id="toggleMenuText" class="showHideText">Hide Menu</Text>
+</Panel>
+
+<Panel class="tilePanel">
+  <Button id="tileShow" class="tileButton" active="False" onClick="toggleUI"></Button>
+  <Button id="tileHide" class="tileButton" active="True" onClick="toggleUI"></Button>
+</Panel>
+
+<!-- Scripting Zone -->
+<Panel id="zoneBorderUI" class="zoneBorderPanel">
+  <TableLayout class="generalTable"><Row></Row></TableLayout>
+</Panel>
+
+<Panel id="zoneUI" class="zonePanel">
+  <TableLayout class="zoneTable">
+    <Row><Cell class="zoneCell"><Text class="generalText" alignment="LowerCenter" fontSize="24">Deck Spawn Zone</Text></Cell></Row>
+    <Row><Cell class="zoneCell">
+        <Text class="generalText" alignment="UpperCenter" fontSize="13" color="#ffea00">Clicking [Create Deck] will delete existing decks touching this zone!</Text>
+    </Cell></Row>
+  </TableLayout>
+</Panel>
+
+<!-- Settings Panel -->
+<Panel id="settingsUI" class="settingsPanel">
+
+  <VerticalLayout spacing="10" childForceExpandHeight="false">
+
+    <Text class="panelHeading" fontSize="55">Settings</Text>
+
+    <VerticalScrollView flexibleHeight="1" scrollSensitivity="100" noScrollbars="true">
+      <TableLayout class="generalTable" useGlobalCellPadding="false" autoCalculateHeight="true">
+
+        <!-- Select All Decks -->
+        <Row class="generalRow">
+          <Button id="selectAllDecks" class="generalButton" onClick="selectAll"><Text class="generalText">Select All</Text></Button>
+        </Row>
+
+        <!-- Select Base Decks Only -->
+        <Row class="generalRow">
+          <Button id="selectAllBaseDecks" class="generalButton" onClick="selectAllBase"><Text class="generalText">Select Base Decks Only</Text></Button>
+        </Row>
+
+        <!-- Deselect All Decks -->
+        <Row class="generalRow">
+          <Button id="deselectAllDecks" class="generalButton" onClick="deselectAll"><Text class="generalText">Deselect All</Text></Button>
+        </Row>
+
+        <Row class="separatorRow"></Row>
+
+        <!-- Show Alternative Titles -->
+        <Row class="generalRow">
+          <Button id="showAltTitles" class="settingsOff" onClick="toggleTitles"><Text class="generalText">Show Alternative Titles</Text></Button>
+          <Button id="hideAltTitles" class="settingsOn" onClick="toggleTitles"><Text class="generalText">Show Alternative Titles</Text></Button>
+        </Row>
+
+        <!-- Show Deck Sizes -->
+        <Row class="generalRow">
+          <Button id="showDeckSizes" class="settingsOff" onClick="toggleDeckSizes"><Text class="generalText">Show Deck Sizes</Text></Button>
+          <Button id="hideDeckSizes" class="settingsOn" onClick="toggleDeckSizes"><Text class="generalText">Show Deck Sizes</Text></Button>
+        </Row>
+
+        <Row class="separatorRow"></Row>
+
+        <!-- Spawn Deck Bag -->
+        <Row class="generalRow">
+          <Button id="spawnBag" class="generalButton" onClick="spawnDeckBag">
+            <Text class="generalText">Spawn Bag Containing All Decks</Text></Button>
+            <Button id="spawnBagDisabled" class="generalButton" active="false">
+              <Text class="generalText">Spawn Bag Containing All Decks</Text></Button>
+        </Row>
+
+      </TableLayout>
+    </VerticalScrollView>
+
+  </VerticalLayout>
+</Panel>
+
+<!-- Deck Selector Panel -->
+<Panel id="deckSelectorUI" class="deckSelectorPanel">
+
+  <VerticalLayout spacing="10" childForceExpandHeight="false">
+
+    <Text class="panelHeading">Deck Selector</Text>
+
+    <!-- Headings -->
+    <VerticalScrollView minHeight="55" flexibleHeight="0" scrollSensitivity="100" noScrollbars="true">
+      <TableLayout class="generalTable" columnWidths="0 300 317" useGlobalCellPadding="false" autoCalculateHeight="false">
+        <Row class="subheadingRow">
+          <Cell class="titlesCell"><Text class="subheadingText" alignment="MiddleLeft">Anime</Text></Cell>
+          <Cell><Text class="subheadingText">Base Deck</Text></Cell>
+          <Cell><Text class="subheadingText">Bonus Cards</Text></Cell>
+        </Row>
+      </TableLayout>
+    </VerticalScrollView>
+
+    <!-- Main Checklist -->
+    <VerticalScrollView flexibleHeight="1" scrollSensitivity="100">
+      <TableLayout class="generalTable" columnWidths="0 300 300" useGlobalCellPadding="false" autoCalculateHeight="true">
+
+        <!-- Akame ga Kill! -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Akame Ga Kill!</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="176075" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id="176075_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Angel Beats! -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Angel Beats!</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="7c816a" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "7c816a_count" class="deckSizeText">4</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Ao no Exorcist -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="ANE" class="generalText">Ao no Exorcist</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="bbcd05" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "bbcd05_count" class="deckSizeText">6</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Boku dake ga Inai Machi -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="BDGIM" class="generalText">Boku dake ga Inai Machi</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="cfb051" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "cfb051_count" class="deckSizeText">8</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Boku no Hero Academia -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="BNHA" class="generalText">Boku no Hero Academia</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="51910c" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "51910c_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="7fc42e" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "7fc42e_count" class="deckSizeText">38</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Code Geass -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Code Geass</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="548140" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "548140_count" class="deckSizeText">4</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Death Note -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Death Note</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="b111a0" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "b111a0_count" class="deckSizeText">7</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Dumbbell Nan Kilo Moteru? -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="DNKM" class="generalText">Dumbbell Nan Kilo Moteru?</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="1dc642" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "1dc642_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Fairy Tail -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Fairy Tail</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="8d1a2e" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "8d1a2e_count" class="deckSizeText">12</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="cae9a9" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "cae9a9_count" class="deckSizeText">46</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Fate/Grand Order -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Fate/Grand Order</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="8de71a" class="checkbox" onValueChanged="addDeckFate"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "8de71a_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="c4298c" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "c4298c_count" class="deckSizeText">242</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Fate/kaleid liner Prisma☆Illya!-->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Fate/kaleid liner Prisma☆Illya!</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="7fb0db" class="checkbox" onValueChanged="addDeckFate"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "7fb0db_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Fate/stay night-->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Fate/stay night</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="b87ef5" class="checkbox" onValueChanged="addDeckFate"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "b87ef5_count" class="deckSizeText">13</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Fate/Zero-->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Fate/Zero</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="8e09e6" class="checkbox" onValueChanged="addDeckFate"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "8e09e6_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Fullmetal Alchemist -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Fullmetal Alchemist</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="b1da19" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "b1da19_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="5ba6aa" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "5ba6aa_count" class="deckSizeText">8</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Hunter x Hunter -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Hunter x Hunter</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="f5bde6" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "f5bde6_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="4416d7" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "4416d7_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Kill la Kill -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Kill la Kill</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="7b103b" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "7b103b_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Kimi no Na wa. -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="KNNW" class="generalText">Kimi no Na wa.</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="0cdc5c" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "0cdc5c_count" class="deckSizeText">2</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Kono Subarashii Sekai ni Shukufuku wo! -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="KSSNSW" class="generalText">Kono Subarashii Sekai ni Shukufuku wo!</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="40d754" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "40d754_count" class="deckSizeText">8</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Mirai Nikki -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="MN" class="generalText">Mirai Nikki</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="7d0cd1" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "7d0cd1_count" class="deckSizeText">3</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Nanatsu no Taizai -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="NNT" class="generalText">Nanatsu no Taizai</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="612d20" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "612d20_count" class="deckSizeText">11</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Naruto -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Naruto</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="ade87d" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "ade87d_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="4bede7" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "4bede7_count" class="deckSizeText">15</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- No Game No Life -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">No Game No Life</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="59306f" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "59306f_count" class="deckSizeText">6</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Nisekoi -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="Nisekoi" class="generalText">Nisekoi</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="1edb98" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "1edb98_count" class="deckSizeText">5</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Noragami -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Noragami</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="945f39" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "945f39_count" class="deckSizeText">6</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- One Punch Man -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">One Punch Man</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="2ae11b" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "2ae11b_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="4c56b5" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "4c56b5_count" class="deckSizeText">7</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Psycho-Pass -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Psycho-Pass</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="4fface" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "4fface_count" class="deckSizeText">7</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Re:Zero -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="RZ" class="generalText">Re:Zero kara Hajimeru Isekai Seikatsu</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="c789ee" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "c789ee_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Shigatsu wa Kimi no Uso -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="SWKNU" class="generalText">Shigatsu wa Kimi no Uso</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="fa08d5" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "fa08d5_count" class="deckSizeText">6</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Shingeki no Kyojin -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="SNK" class="generalText">Shingeki no Kyojin</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="945263" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "945263_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="e76712" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "e76712_count" class="deckSizeText">5</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Shokugeki no Souma -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text id="SNS" class="generalText">Shokugeki no Souma</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="6019e8" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "6019e8_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="1f7b90" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "1f7b90_count" class="deckSizeText">22</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Soul Eater -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Soul Eater</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="498dd5" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "498dd5_count" class="deckSizeText">13</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Steins;Gate -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Steins;Gate</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="ca6907" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "ca6907_count" class="deckSizeText">7</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Sword Art Online -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Sword Art Online</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="31a597" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "31a597_count" class="deckSizeText">10</Text></Cell></Row>
+          </TableLayout></Cell>
+
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="e16a09" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "e16a09_count" class="deckSizeText">4</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Tengen Toppa Gurren Lagann -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Tengen Toppa Gurren Lagann</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="4cc559" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "4cc559_count" class="deckSizeText">9</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Tokyo Ghoul -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Tokyo Ghoul</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="aac636" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "aac636_count" class="deckSizeText">5</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+        <!-- Toradora! -->
+        <Row class="generalRow">
+          <Cell class="titlesCell"><Text class="generalText">Toradora!</Text></Cell>
+          <Cell><TableLayout class="columnSplit">
+            <Row><Cell class="checkboxCell"><Toggle id="18e56e" class="checkbox"></Toggle></Cell>
+                 <Cell class="deckCountCell"><Text id= "18e56e_count" class="deckSizeText">5</Text></Cell></Row>
+          </TableLayout></Cell>
+        </Row>
+
+      </TableLayout>
+    </VerticalScrollView>
+
+    <!-- Create Deck Button -->
+    <Button id="createDeckButton" preferredHeight="175" color="#31b32b" onClick="createDeck()">
+        <Text color="#ffffff" fontSize="65">Create Deck</Text></Button>
+    <Button id="createDeckButtonDisabled" active="false" preferredHeight="175" color="#23272a" onClick="">
+        <Text color="#99aab5" fontSize="65">Create Deck</Text></Button>
+
+  </VerticalLayout>
+</Panel>
