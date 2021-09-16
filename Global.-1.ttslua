@@ -1,0 +1,27 @@
+function onload()
+    masterBag = getObjectFromGUID("4be299")
+
+    -- Hide Position
+    masterBag.setPosition({0.00, -5, 12.56})
+
+    masterBag.interactable = false
+    masterBag.use_gravity = false
+    masterBag.attachInvisibleHider("hide", true,
+        {"White", "Brown", "Red", "Orange", "Yellow", "Green", "Teal", "Blue", "Purple", "Pink", "Grey", "Black"})
+end
+
+---------------------------------------------------------
+-- Activate below and disable above to edit master bag --
+---------------------------------------------------------
+
+-- function onload()
+--     masterBag = getObjectFromGUID("4be299")
+--
+--     -- Above Table Position
+--     masterBag.setPosition({0.00, 1.30, 12.56})
+--
+--     masterBag.interactable = true
+--     masterBag.use_gravity = false
+--     masterBag.attachInvisibleHider("hide", false,
+--         {"White", "Brown", "Red", "Orange", "Yellow", "Green", "Teal", "Blue", "Purple", "Pink", "Grey", "Black"})
+-- end
